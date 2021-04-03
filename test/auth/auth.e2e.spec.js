@@ -11,7 +11,7 @@ describe("Testing auth API", function(){
             .post("/users")
             .send({
                 username: "johnconor",
-                password: "1234",
+                password: "1235",
                 firstName: "John",
                 lastName: "Conor"
             })
@@ -32,7 +32,7 @@ describe("Testing auth API", function(){
             .post("/auth/login")
             .send({
                 username: "johnconor",
-                password: "1234",
+                password: "1235"
             })
             .expect(200)
             .expect(res => {
