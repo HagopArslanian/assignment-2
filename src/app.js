@@ -6,6 +6,7 @@ const express = require("express");
 const app = express();
 const users = require("./users/users.controller");
 const auth = require("./auth/auth.controller");
+const posts = require("./posts/posts.controller");
 //const bodyParser = require("body-parser");//body-parser is to be able to parse json data from body.
 const { writeInFile, readFromFile } = require("./commons/util");
 const { handleError } = require("./commons/middlewares/error-handler.middleware");
@@ -15,10 +16,16 @@ const { jwtMiddleware } = require("./commons/middlewares/auth.middleware");
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json());
 
-app.use(jwtMiddleware);
+app.use(jwtMiddleware.unless({
+    path: [
+        "/auth/login",
+        {url: "/users", methods: ["POST"]}
+    ]
+}));
 
 app.use("/users", users);
 app.use("/auth", auth);
+app.use("/posts", posts);
 
 app.get("/", (req, res) => {
     res.send("Hello World!");
